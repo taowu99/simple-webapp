@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Client Page for counting strings</title>
+</head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+<div ng-app="stringCounterApp" ng-controller="strCountCtrl" ng-init="checkResult:''">
+  <p>The string to check: <input type="text" ng-model="stringToCheck">
+  <button ng-click="checkString()">Count</button>
+  <br>
+  {{checkResult}}</p>
+</div>
+<script>
+var app = angular.module("stringCounterApp", []); 
+app.controller("strCountCtrl", function($scope, $http) {
+   $scope.checkString = function() {
+	  var data = $scope.stringToCheck;
+	  $http({method: 'GET', url: "spsvc/countstr/ab\?data="+data }).
+		  then(
+		      function successCallback(response) {
+		          if (response.status == 200) {
+		        	  appRT = response.data;
+		        	  $scope.checkResult = "Result of Counting: "+appRT.status+", "+(appRT.data?appRT.data:" Empty");
+		      	  }
+		          else {
+		        	  $scope.checkResult = response.status+"; "+response.statusText;
+		          }
+		      }, 
+		      function errorCallback(response){
+		    	  $scope.checkResult = response.status+"; "+response.statusText;
+		      }
+		  );
+   };
+});
+</script>
+
+</body>
+</html>
