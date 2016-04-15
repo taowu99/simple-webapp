@@ -1,5 +1,6 @@
 package org.tao.test.webapp.simple.rest;
 
+//this is the response class for StringCounter
 public class StringCounterResponse {
 	public enum STATUS {
 		SUCCESS, FAIL
@@ -18,7 +19,5 @@ public class StringCounterResponse {
 	}
 	public void setData(String data) {
 		this.data = data;
-	}
-	
-	
+	}	
 }
