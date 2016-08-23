@@ -10,7 +10,7 @@
   
   <properties>
 		<jdk.version>1.7</jdk.version>
-		<spring.version>4.1.1.RELEASE</spring.version>
+		<spring.version>4.3.2.RELEASE</spring.version>
 		<junit.version>4.11</junit.version>
 		<jackson.version>2.1.2</jackson.version>
 		<jackson.map.version>1.9.3</jackson.map.version>
