@@ -6,18 +6,23 @@
 </head>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <body>
+<form action="logout" method="post">
+<button type="submit">Click Me!</button>
+</form>
 <div ng-app="stringCounterApp" ng-controller="strCountCtrl" ng-init="checkResult:''">
   <p>The string to check: <input type="text" ng-model="stringToCheck">
   <button ng-click="checkString()">Count</button>
+  <button ng-click="logout()">logout</button>
   <br>
   {{checkResult}}</p>
 </div>
 <script>
-var app = angular.module("stringCounterApp", []); 
-app.controller("strCountCtrl", function($scope, $http) {
+var app = angular.module("stringCounterApp", []).constant("CSRF_TOKEN", '{{ csrf_token() }}'); 
+app.controller("strCountCtrl", function($scope, $http, CSRF_TOKEN) {
    $scope.checkString = function() {
+	   //alert($scope.'X-CS);
 	  var data = $scope.stringToCheck;
-	  $http({method: 'GET', url: "spsvc/countstr/ab\?data="+data }).
+	  $http({method: 'GET', url: "rest/countstr/ab\?data="+data }).
 		  then(
 		      function successCallback(response) {
 		          if (response.status == 200) {
@@ -32,6 +37,14 @@ app.controller("strCountCtrl", function($scope, $http) {
 		    	  $scope.checkResult = response.status+"; "+response.statusText;
 		      }
 		  );
+   };
+   
+   $scope.logout= function() {
+	   $http.post('logout', {}).finally(function() {
+		    $rootScope.authenticated = false;
+		    $location.path("logout");
+	   });
+	   //$http.post('logout',{})({method: 'POST', url:"login?logout"}).then(function successCallback(response) {$location.path('')});
    };
 });
 </script>
